@@ -1,0 +1,264 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gods-helper.sikuli</h2> <a href="gods-helper.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> datetime
+<span class="kw">import</span> time
+
+<span class="kw">class</span> adventure:
+    last_norm_clear = <span class="dig">11</span>
+    last_hell_clear = <span class="dig">9</span>
+
+    @staticmethod
+    <span class="kw">def</span> start(mode=<span class="str">"hell"</span>, chap=<span class="dig">6</span>, stage=<span class="dig">8</span>):
+        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="main_adventure.png" />, <span class="dig">10</span>))
+
+        control_mode = <span class="skw">wait</span>(Pattern(<img src="adventure_mode.png" />).similar(<span class="dig">0.40</span>), <span class="dig">10</span>)
+        <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">60</span>, -<span class="dig">10</span>)))
+        <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">60</span>, -<span class="dig">10</span>)))
+        control_chap = <span class="skw">wait</span>(Pattern(<img src="adventure_chapter.png" />).similar(<span class="dig">0.50</span>), <span class="dig">3</span>)
+        control_stage = <span class="skw">find</span>(Pattern(<img src="adventure_stage.png" />).similar(<span class="dig">0.40</span>))
+
+        <span class="kw">if</span> mode == <span class="str">"hell"</span>:
+            <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">60</span>, -<span class="dig">10</span>)))
+            <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">60</span>, -<span class="dig">10</span>)))
+            <span class="skw">wait</span>(<span class="dig">0.5</span>)
+            <span class="kw">for</span> p <span class="kw">in</span> xrange(chap, adventure.last_hell_clear):
+                <span class="skw">click</span>(control_chap.offset(Location(-<span class="dig">170</span>, <span class="dig">0</span>)))
+                <span class="skw">wait</span>(<span class="dig">0.5</span>)
+        <span class="kw">else</span>:
+            <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">40</span>, -<span class="dig">10</span>)))
+            <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">40</span>, -<span class="dig">10</span>)))
+            <span class="skw">wait</span>(<span class="dig">0.5</span>)
+            <span class="kw">for</span> p <span class="kw">in</span> xrange(chap, adventure.last_norm_clear):
+                <span class="skw">click</span>(control_chap.offset(Location(-<span class="dig">170</span>, <span class="dig">0</span>)))
+                <span class="skw">wait</span>(<span class="dig">0.5</span>)
+
+        <span class="kw">if</span> stage == <span class="dig">3</span>:
+            <span class="skw">click</span>(control_stage.offset(Location(-<span class="dig">8</span>, -<span class="dig">166</span>)))
+        <span class="kw">elif</span> stage == <span class="dig">4</span>:
+            <span class="skw">click</span>(control_stage.offset(Location(-<span class="dig">150</span>, -<span class="dig">10</span>)))
+        <span class="kw">elif</span> stage == <span class="dig">7</span>:
+            <span class="skw">click</span>(control_stage.offset(Location(<span class="dig">147</span>, -<span class="dig">155</span>)))
+        <span class="kw">elif</span> stage == <span class="dig">8</span>:
+            <span class="skw">click</span>(control_stage.offset(Location(<span class="dig">320</span>, -<span class="dig">150</span>)))
+
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="adventure_repeat_on.png" />).similar(<span class="dig">0.60</span>)))
+        <span class="skw">click</span>(<span class="skw">find</span>(<img src="adventure_start.png" />))
+
+        <span class="kw">return</span> angel.ADVENTURE
+
+    @staticmethod
+    <span class="kw">def</span> running():
+        <span class="kw">if</span> exists(Pattern(<img src="adventure_status.png" />).similar(<span class="dig">0.50</span>), <span class="dig">5</span>) <span class="kw">is</span> <span class="kw">not</span> None:
+            getLastMatch().highlight(<span class="dig">1</span>)
+            <span class="kw">pass</span>
+        <span class="kw">elif</span> exists(<img src="stage_victory.png" />) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="kw">try</span>:
+                <span class="skw">click</span>(<span class="skw">find</span>(<img src="adventure_restart.png" />))
+<span class="cmt">#                should check repeat mode is on</span>
+            <span class="kw">except</span>:
+                <span class="kw">pass</span>
+        <span class="kw">elif</span> exists(<img src="stage_defeat.png" />) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="skw">click</span>(<span class="skw">find</span>(<img src="adventure_restart.png" />))
+        <span class="kw">else</span>:
+            <span class="kw">return</span> angel.UNIDENTIFIED
+
+        <span class="kw">return</span> angel.ADVENTURE
+
+<span class="kw">class</span> angel:
+    UNIDENTIFIED, MAIN, ADVENTURE, FRIDGE, INTERSECTION, CHALLENGE = range(<span class="dig">6</span>)
+    threshold = <span class="dig">0.50</span>
+
+    @staticmethod
+    <span class="kw">def</span> check(state=ADVENTURE):
+        <span class="kw">if</span> exists(Pattern(<img src="alarm_title.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="skw">wait</span>(<span class="dig">5</span>)
+
+            <span class="kw">if</span> exists(Pattern(<img src="alarm_max_inven.png" />).similar(<span class="dig">0.90</span>), <span class="dig">0.1</span>) <span class="kw">is</span> <span class="kw">not</span> None:
+                getLastMatch().highlight(<span class="dig">1</span>)
+                <span class="kw">print</span> <span class="str">"MAX INVENTORY"</span>
+                <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="alarm_ok.png" />).similar(<span class="dig">0.90</span>)))
+                <span class="kw">if</span> exists(Pattern(<img src="inven_expand.png" />).similar(<span class="dig">0.90</span>), <span class="dig">1</span>) <span class="kw">is</span> <span class="kw">not</span> None:
+                    <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="alarm_close.png" />).similar(<span class="dig">0.90</span>)))
+                    <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
+                angel.clear_inventory()
+                <span class="kw">return</span> angel.MAIN
+            <span class="kw">elif</span> exists(Pattern(<img src="alarm_no_energy.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+                getLastMatch().highlight(<span class="dig">1</span>)
+                <span class="kw">if</span> exists(Pattern(<img src="alarm_ok-1.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+                    <span class="skw">click</span>(getLastMatch())
+                <span class="kw">elif</span> exists(Pattern(<img src="alarm_no.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+                    <span class="skw">click</span>(getLastMatch())
+                    <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back-1.png" />).similar(<span class="dig">0.90</span>)))
+                angel.buy_energy()
+                <span class="kw">return</span> angel.MAIN
+        <span class="kw">elif</span> exists(Pattern(<img src="cafe_close.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="kw">try</span>:
+                <span class="skw">click</span>(getLastMatch())
+            <span class="kw">except</span>:
+                <span class="kw">pass</span>
+            <span class="kw">return</span> angel.UNIDENTIFIED
+        <span class="kw">elif</span> exists(Pattern(<img src="popup_close.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="kw">try</span>:
+                <span class="skw">click</span>(getLastMatch())
+            <span class="kw">except</span>:
+                <span class="kw">pass</span>
+            <span class="kw">return</span> angel.UNIDENTIFIED
+        <span class="kw">elif</span> exists(Pattern(<img src="back-2.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+            getLastMatch().highlight(<span class="dig">1</span>)
+            <span class="skw">click</span>(getLastMatch())
+            <span class="kw">return</span> angel.UNIDENTIFIED
+
+        <span class="kw">if</span> state == angel.UNIDENTIFIED:
+            <span class="kw">return</span> angel.MAIN
+        <span class="kw">else</span>:
+            <span class="kw">return</span> state
+
+    @staticmethod
+    <span class="kw">def</span> clear_inventory():
+        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="main_char.png" />, <span class="dig">10</span>))
+        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="inven_sell.png" />, <span class="dig">10</span>))
+        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="inven_select_all.png" />, <span class="dig">3</span>))
+
+        <span class="skw">wait</span>(Pattern(<img src="inven_select_sell.png" />).similar(<span class="dig">0.90</span>), <span class="dig">5</span>)
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_select_2star.png" />).similar(<span class="dig">0.90</span>)))
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_select_3star.png" />).similar(<span class="dig">0.95</span>)))
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_select_4star.png" />).similar(<span class="dig">0.95</span>)))
+
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_sell_all.png" />).similar(<span class="dig">0.90</span>)))
+        <span class="kw">if</span> exists(Pattern(<img src="alarm_ok.png" />).similar(<span class="dig">0.90</span>), <span class="dig">2</span>) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="skw">click</span>(getLastMatch())
+
+        <span class="skw">click</span>(<span class="skw">wait</span>(Pattern(<img src="inven_go2item.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>))
+        <span class="skw">wait</span>(Pattern(<img src="inven_go2char.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="inven_sell.png" />, <span class="dig">10</span>))
+        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="inven_select_all.png" />, <span class="dig">3</span>))
+
+        <span class="skw">wait</span>(Pattern(<img src="inven_select_sell.png" />).similar(<span class="dig">0.90</span>), <span class="dig">5</span>)
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_select_2star.png" />).similar(<span class="dig">0.90</span>)))
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_select_3star.png" />).similar(<span class="dig">0.95</span>)))
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_select_4star.png" />).similar(<span class="dig">0.95</span>)))
+
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="inven_sell_all.png" />).similar(<span class="dig">0.90</span>)))
+        <span class="kw">if</span> exists(Pattern(<img src="alarm_ok.png" />).similar(<span class="dig">0.90</span>), <span class="dig">2</span>) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="skw">click</span>(getLastMatch())
+
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
+        <span class="kw">return</span>
+
+    @staticmethod
+    <span class="kw">def</span> buy_energy():
+
+        <span class="skw">click</span>(<span class="skw">find</span>(<img src="shop_energy.png" />))
+        tab = <span class="skw">wait</span>(Pattern(<img src="shop_tab.png" />).similar(<span class="dig">0.90</span>), <span class="dig">3</span>)
+
+        <span class="kw">while</span> exists(Pattern(<img src="shop_gold2energy.png" />).similar(<span class="dig">0.95</span>)) <span class="kw">is</span> None:
+            <span class="skw">dragDrop</span>(tab.below(<span class="dig">300</span>).right(<span class="dig">50</span>), tab.below(<span class="dig">300</span>).left(<span class="dig">300</span>))
+            <span class="skw">wait</span>(<span class="dig">0.5</span>)
+
+        <span class="kw">for</span> i <span class="kw">in</span> xrange(<span class="dig">1</span>):
+            <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="shop_gold2energy.png" />).similar(<span class="dig">0.95</span>)))
+            <span class="skw">click</span>(<span class="skw">wait</span>(Pattern(<img src="shop_gold2energy_confirm.png" />).similar(<span class="dig">0.95</span>), <span class="dig">3</span>))
+            <span class="kw">if</span> waitVanish(Pattern(<img src="shop_gold2energy_confirm.png" />).similar(<span class="dig">0.95</span>), FOREVER):
+                <span class="kw">continue</span>
+        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="popup_close.png" />).similar(<span class="dig">0.80</span>)))
+        <span class="kw">return</span>
+
+
+
+setFindFailedResponse(ABORT)
+setAutoWaitTimeout(<span class="dig">1</span>)
+
+startTime = datetime.datetime.now()
+<span class="skw">popup</span>(str(startTime))
+
+state = angel.MAIN
+mode, chap, stage = <span class="str">"hell"</span>, <span class="dig">8</span>, <span class="dig">4</span>
+<span class="kw">while</span> True:
+    state = angel.check(state)
+
+    <span class="kw">if</span> state == angel.UNIDENTIFIED:
+        <span class="kw">continue</span>
+    <span class="kw">elif</span> state == angel.MAIN:
+        state = adventure.start(mode, chap, stage)
+        <span class="kw">continue</span>
+    <span class="kw">elif</span> state == angel.ADVENTURE:
+        state = adventure.running()
+        <span class="kw">continue</span>
+    <span class="kw">elif</span> state == angel.FRIDGE:
+        <span class="kw">pass</span>
+
+    <span class="kw">print</span> state
+    <span class="skw">wait</span>(<span class="dig">3</span>)
+</pre>
+</body>
+</html>
