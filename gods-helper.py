@@ -7,42 +7,45 @@ class adventure:
     
     @staticmethod
     def start(mode="hell", chap=6, stage=8):
-        click(wait("main_adventure.png", 10))
-
-        control_mode = wait(Pattern("adventure_mode.png").similar(0.40), 10)
-        click(control_mode.offset(Location(-60, -10)))
-        click(control_mode.offset(Location(60, -10)))
-        control_chap = wait(Pattern("adventure_chapter.png").similar(0.50), 3)
-        control_stage = find(Pattern("adventure_stage.png").similar(0.40))
-        
-        if mode == "hell":
+        try:
+            click(wait("main_adventure.png", 10))
+    
+            control_mode = wait(Pattern("adventure_mode.png").similar(0.40), 10)
             click(control_mode.offset(Location(-60, -10)))
             click(control_mode.offset(Location(60, -10)))
-            wait(0.5)
-            for p in xrange(chap, adventure.last_hell_clear):
-                click(control_chap.offset(Location(-170, 0)))
+            control_chap = wait(Pattern("adventure_chapter.png").similar(0.50), 3)
+            control_stage = find(Pattern("adventure_stage.png").similar(0.40))
+            
+            if mode == "hell":
+                click(control_mode.offset(Location(-60, -10)))
+                click(control_mode.offset(Location(60, -10)))
                 wait(0.5)
-        else:
-            click(control_mode.offset(Location(40, -10)))
-            click(control_mode.offset(Location(-40, -10)))
-            wait(0.5)
-            for p in xrange(chap, adventure.last_norm_clear):
-                click(control_chap.offset(Location(-170, 0)))
+                for p in xrange(chap, adventure.last_hell_clear):
+                    click(control_chap.offset(Location(-170, 0)))
+                    wait(0.5)
+            else:
+                click(control_mode.offset(Location(40, -10)))
+                click(control_mode.offset(Location(-40, -10)))
                 wait(0.5)
-    
-        if stage == 3:
-            click(control_stage.offset(Location(-8, -166)))
-        elif stage == 4:
-            click(control_stage.offset(Location(-150, -10)))
-        elif stage == 7:
-            click(control_stage.offset(Location(147, -155)))
-        elif stage == 8:
-            click(control_stage.offset(Location(320, -150)))
-    
-        click(find(Pattern("adventure_repeat_on.png").similar(0.60)))
-        click(find("adventure_start.png"))
+                for p in xrange(chap, adventure.last_norm_clear):
+                    click(control_chap.offset(Location(-170, 0)))
+                    wait(0.5)
         
-        return angel.ADVENTURE
+            if stage == 3:
+                click(control_stage.offset(Location(-8, -166)))
+            elif stage == 4:
+                click(control_stage.offset(Location(-150, -10)))
+            elif stage == 7:
+                click(control_stage.offset(Location(147, -155)))
+            elif stage == 8:
+                click(control_stage.offset(Location(320, -150)))
+        
+            click(find(Pattern("adventure_repeat_on.png").similar(0.60)))
+            click(find("adventure_start.png"))
+            
+            return angel.ADVENTURE
+        except:
+            return angel.UNIDENTIFIED
 
     @staticmethod
     def running():
@@ -86,7 +89,7 @@ class angel:
                     click(getLastMatch())
                 elif exists(Pattern("alarm_no.png").similar(0.90)) is not None:
                     click(getLastMatch())
-                    click(find(Pattern("back-1.png").similar(0.90)))
+                    click(find(Pattern("back.png").similar(0.90)))
                 angel.buy_energy()
                 return angel.MAIN
         elif exists(Pattern("cafe_close.png").similar(0.90)) is not None:
@@ -101,15 +104,15 @@ class angel:
             except:
                 pass
             return angel.UNIDENTIFIED
-        elif exists(Pattern("back-2.png").similar(0.90)) is not None:
+        elif exists(Pattern("back.png").similar(0.90)) is not None:
             getLastMatch().highlight(1)
             click(getLastMatch())
             return angel.UNIDENTIFIED
-
-        if state == angel.UNIDENTIFIED:
-            return angel.MAIN
-        else:
-            return state
+        else:       
+            if state == angel.UNIDENTIFIED:
+                return angel.MAIN
+            else:
+                return state
 
     @staticmethod
     def clear_inventory():
@@ -153,7 +156,7 @@ class angel:
             dragDrop(tab.below(300).right(50), tab.below(300).left(300))
             wait(0.5)
 
-        for i in xrange(1):
+        for i in xrange(2):
             click(find(Pattern("shop_gold2energy.png").similar(0.95)))
             click(wait(Pattern("shop_gold2energy_confirm.png").similar(0.95), 3))
             if waitVanish(Pattern("shop_gold2energy_confirm.png").similar(0.95), FOREVER):

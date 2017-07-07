@@ -79,42 +79,45 @@
 
     @staticmethod
     <span class="kw">def</span> start(mode=<span class="str">"hell"</span>, chap=<span class="dig">6</span>, stage=<span class="dig">8</span>):
-        <span class="skw">click</span>(<span class="skw">wait</span>(<img src="main_adventure.png" />, <span class="dig">10</span>))
+        <span class="kw">try</span>:
+            <span class="skw">click</span>(<span class="skw">wait</span>(<img src="main_adventure.png" />, <span class="dig">10</span>))
 
-        control_mode = <span class="skw">wait</span>(Pattern(<img src="adventure_mode.png" />).similar(<span class="dig">0.40</span>), <span class="dig">10</span>)
-        <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">60</span>, -<span class="dig">10</span>)))
-        <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">60</span>, -<span class="dig">10</span>)))
-        control_chap = <span class="skw">wait</span>(Pattern(<img src="adventure_chapter.png" />).similar(<span class="dig">0.50</span>), <span class="dig">3</span>)
-        control_stage = <span class="skw">find</span>(Pattern(<img src="adventure_stage.png" />).similar(<span class="dig">0.40</span>))
-
-        <span class="kw">if</span> mode == <span class="str">"hell"</span>:
+            control_mode = <span class="skw">wait</span>(Pattern(<img src="adventure_mode.png" />).similar(<span class="dig">0.40</span>), <span class="dig">10</span>)
             <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">60</span>, -<span class="dig">10</span>)))
             <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">60</span>, -<span class="dig">10</span>)))
-            <span class="skw">wait</span>(<span class="dig">0.5</span>)
-            <span class="kw">for</span> p <span class="kw">in</span> xrange(chap, adventure.last_hell_clear):
-                <span class="skw">click</span>(control_chap.offset(Location(-<span class="dig">170</span>, <span class="dig">0</span>)))
+            control_chap = <span class="skw">wait</span>(Pattern(<img src="adventure_chapter.png" />).similar(<span class="dig">0.50</span>), <span class="dig">3</span>)
+            control_stage = <span class="skw">find</span>(Pattern(<img src="adventure_stage.png" />).similar(<span class="dig">0.40</span>))
+
+            <span class="kw">if</span> mode == <span class="str">"hell"</span>:
+                <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">60</span>, -<span class="dig">10</span>)))
+                <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">60</span>, -<span class="dig">10</span>)))
                 <span class="skw">wait</span>(<span class="dig">0.5</span>)
-        <span class="kw">else</span>:
-            <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">40</span>, -<span class="dig">10</span>)))
-            <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">40</span>, -<span class="dig">10</span>)))
-            <span class="skw">wait</span>(<span class="dig">0.5</span>)
-            <span class="kw">for</span> p <span class="kw">in</span> xrange(chap, adventure.last_norm_clear):
-                <span class="skw">click</span>(control_chap.offset(Location(-<span class="dig">170</span>, <span class="dig">0</span>)))
+                <span class="kw">for</span> p <span class="kw">in</span> xrange(chap, adventure.last_hell_clear):
+                    <span class="skw">click</span>(control_chap.offset(Location(-<span class="dig">170</span>, <span class="dig">0</span>)))
+                    <span class="skw">wait</span>(<span class="dig">0.5</span>)
+            <span class="kw">else</span>:
+                <span class="skw">click</span>(control_mode.offset(Location(<span class="dig">40</span>, -<span class="dig">10</span>)))
+                <span class="skw">click</span>(control_mode.offset(Location(-<span class="dig">40</span>, -<span class="dig">10</span>)))
                 <span class="skw">wait</span>(<span class="dig">0.5</span>)
+                <span class="kw">for</span> p <span class="kw">in</span> xrange(chap, adventure.last_norm_clear):
+                    <span class="skw">click</span>(control_chap.offset(Location(-<span class="dig">170</span>, <span class="dig">0</span>)))
+                    <span class="skw">wait</span>(<span class="dig">0.5</span>)
 
-        <span class="kw">if</span> stage == <span class="dig">3</span>:
-            <span class="skw">click</span>(control_stage.offset(Location(-<span class="dig">8</span>, -<span class="dig">166</span>)))
-        <span class="kw">elif</span> stage == <span class="dig">4</span>:
-            <span class="skw">click</span>(control_stage.offset(Location(-<span class="dig">150</span>, -<span class="dig">10</span>)))
-        <span class="kw">elif</span> stage == <span class="dig">7</span>:
-            <span class="skw">click</span>(control_stage.offset(Location(<span class="dig">147</span>, -<span class="dig">155</span>)))
-        <span class="kw">elif</span> stage == <span class="dig">8</span>:
-            <span class="skw">click</span>(control_stage.offset(Location(<span class="dig">320</span>, -<span class="dig">150</span>)))
+            <span class="kw">if</span> stage == <span class="dig">3</span>:
+                <span class="skw">click</span>(control_stage.offset(Location(-<span class="dig">8</span>, -<span class="dig">166</span>)))
+            <span class="kw">elif</span> stage == <span class="dig">4</span>:
+                <span class="skw">click</span>(control_stage.offset(Location(-<span class="dig">150</span>, -<span class="dig">10</span>)))
+            <span class="kw">elif</span> stage == <span class="dig">7</span>:
+                <span class="skw">click</span>(control_stage.offset(Location(<span class="dig">147</span>, -<span class="dig">155</span>)))
+            <span class="kw">elif</span> stage == <span class="dig">8</span>:
+                <span class="skw">click</span>(control_stage.offset(Location(<span class="dig">320</span>, -<span class="dig">150</span>)))
 
-        <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="adventure_repeat_on.png" />).similar(<span class="dig">0.60</span>)))
-        <span class="skw">click</span>(<span class="skw">find</span>(<img src="adventure_start.png" />))
+            <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="adventure_repeat_on.png" />).similar(<span class="dig">0.60</span>)))
+            <span class="skw">click</span>(<span class="skw">find</span>(<img src="adventure_start.png" />))
 
-        <span class="kw">return</span> angel.ADVENTURE
+            <span class="kw">return</span> angel.ADVENTURE
+        <span class="kw">except</span>:
+            <span class="kw">return</span> angel.UNIDENTIFIED
 
     @staticmethod
     <span class="kw">def</span> running():
@@ -158,7 +161,7 @@
                     <span class="skw">click</span>(getLastMatch())
                 <span class="kw">elif</span> exists(Pattern(<img src="alarm_no.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
                     <span class="skw">click</span>(getLastMatch())
-                    <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back-1.png" />).similar(<span class="dig">0.90</span>)))
+                    <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
                 angel.buy_energy()
                 <span class="kw">return</span> angel.MAIN
         <span class="kw">elif</span> exists(Pattern(<img src="cafe_close.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
@@ -173,15 +176,15 @@
             <span class="kw">except</span>:
                 <span class="kw">pass</span>
             <span class="kw">return</span> angel.UNIDENTIFIED
-        <span class="kw">elif</span> exists(Pattern(<img src="back-2.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+        <span class="kw">elif</span> exists(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
             getLastMatch().highlight(<span class="dig">1</span>)
             <span class="skw">click</span>(getLastMatch())
             <span class="kw">return</span> angel.UNIDENTIFIED
-
-        <span class="kw">if</span> state == angel.UNIDENTIFIED:
-            <span class="kw">return</span> angel.MAIN
         <span class="kw">else</span>:
-            <span class="kw">return</span> state
+            <span class="kw">if</span> state == angel.UNIDENTIFIED:
+                <span class="kw">return</span> angel.MAIN
+            <span class="kw">else</span>:
+                <span class="kw">return</span> state
 
     @staticmethod
     <span class="kw">def</span> clear_inventory():
@@ -225,7 +228,7 @@
             <span class="skw">dragDrop</span>(tab.below(<span class="dig">300</span>).right(<span class="dig">50</span>), tab.below(<span class="dig">300</span>).left(<span class="dig">300</span>))
             <span class="skw">wait</span>(<span class="dig">0.5</span>)
 
-        <span class="kw">for</span> i <span class="kw">in</span> xrange(<span class="dig">1</span>):
+        <span class="kw">for</span> i <span class="kw">in</span> xrange(<span class="dig">2</span>):
             <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="shop_gold2energy.png" />).similar(<span class="dig">0.95</span>)))
             <span class="skw">click</span>(<span class="skw">wait</span>(Pattern(<img src="shop_gold2energy_confirm.png" />).similar(<span class="dig">0.95</span>), <span class="dig">3</span>))
             <span class="kw">if</span> waitVanish(Pattern(<img src="shop_gold2energy_confirm.png" />).similar(<span class="dig">0.95</span>), FOREVER):
