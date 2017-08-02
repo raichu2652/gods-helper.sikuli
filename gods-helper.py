@@ -3,29 +3,25 @@ import time
 
 class adventure:
     last_norm_clear = 11
-    last_hell_clear = 9
+    last_hell_clear = 11
     
     @staticmethod
     def start(mode="hell", chap=6, stage=8):
         try:
             click(wait("main_adventure.png", 10))
-    
+
             control_mode = wait(Pattern("adventure_mode.png").similar(0.40), 10)
             click(control_mode.offset(Location(-60, -10)))
             click(control_mode.offset(Location(60, -10)))
             control_chap = wait(Pattern("adventure_chapter.png").similar(0.50), 3)
             control_stage = find(Pattern("adventure_stage.png").similar(0.40))
-            
+
             if mode == "hell":
-                click(control_mode.offset(Location(-60, -10)))
-                click(control_mode.offset(Location(60, -10)))
-                wait(0.5)
                 for p in xrange(chap, adventure.last_hell_clear):
                     click(control_chap.offset(Location(-170, 0)))
                     wait(0.5)
             else:
-                click(control_mode.offset(Location(40, -10)))
-                click(control_mode.offset(Location(-40, -10)))
+                click(control_mode.offset(Location(-60, -10)))
                 wait(0.5)
                 for p in xrange(chap, adventure.last_norm_clear):
                     click(control_chap.offset(Location(-170, 0)))
@@ -49,10 +45,7 @@ class adventure:
 
     @staticmethod
     def running():
-        if exists(Pattern("adventure_status.png").similar(0.50), 5) is not None:
-            getLastMatch().highlight(1)
-            pass
-        elif exists("stage_victory.png") is not None:
+        if exists("stage_victory.png") is not None:
             try:
                 click(find("adventure_restart.png"))
 #                should check repeat mode is on
@@ -61,31 +54,41 @@ class adventure:
         elif exists("stage_defeat.png") is not None:
             click(find("adventure_restart.png"))
         else:
-            return angel.UNIDENTIFIED
+            pass
 
         return angel.ADVENTURE
 
 class angel:
     UNIDENTIFIED, MAIN, ADVENTURE, FRIDGE, INTERSECTION, CHALLENGE = range(6)
     threshold = 0.50
+    lastScreenCapture = SCREEN.capture(App.focusedWindow())
 
     @staticmethod
-    def check(state=ADVENTURE):
+    def check(self, state=ADVENTURE):
+        try:
+            find(Pattern(self.lastScreenCapture).similar(0.95))
+            angel.restart()
+            return angel.UNIDENTIFIED
+        except:
+            pass
+
+        self.lastScreenCapture = SCREEN.capture(App.focusedWindow())
+            
         if exists(Pattern("alarm_title.png").similar(0.90)) is not None:
             wait(5)
 
-            if exists(Pattern("alarm_max_inven.png").similar(0.90), 0.1) is not None:
+            if exists(Pattern("alarm_max_inven.png").similar(0.90)) is not None:
                 getLastMatch().highlight(1)
                 print "MAX INVENTORY"
                 click(find(Pattern("alarm_ok.png").similar(0.90)))
-                if exists(Pattern("inven_expand.png").similar(0.90), 1) is not None:
+                if exists(Pattern("inven_expand.png").similar(0.90), 3) is not None:
                     click(find(Pattern("alarm_close.png").similar(0.90)))
                     click(find(Pattern("back.png").similar(0.90)))
                 angel.clear_inventory()
                 return angel.MAIN
             elif exists(Pattern("alarm_no_energy.png").similar(0.90)) is not None:
                 getLastMatch().highlight(1)
-                if exists(Pattern("alarm_ok-1.png").similar(0.90)) is not None:
+                if exists(Pattern("alarm_ok.png").similar(0.90)) is not None:
                     click(getLastMatch())
                 elif exists(Pattern("alarm_no.png").similar(0.90)) is not None:
                     click(getLastMatch())
@@ -115,6 +118,18 @@ class angel:
                 return state
 
     @staticmethod
+    def restart():
+        click(find(Pattern("memu_bar.png").targetOffset(0,35)))
+        wait(3)
+        hover("icon_denma.png")
+        mouseDown(Button.LEFT)
+        wait(3)
+        mouseUp(Button.LEFT)
+        click(wait("text_remove_from_list.png", 5))
+        click(wait("app_denma.png", 10))
+        click(wait("text_touch_screen.png", 60))
+
+    @staticmethod
     def clear_inventory():
         click(wait("main_char.png", 10))
         click(wait("inven_sell.png", 10))
@@ -126,7 +141,7 @@ class angel:
         click(find(Pattern("inven_select_4star.png").similar(0.95)))
 
         click(find(Pattern("inven_sell_all.png").similar(0.90)))
-        if exists(Pattern("alarm_ok.png").similar(0.90), 2) is not None:
+        if exists(Pattern("alarm_ok.png").similar(0.90), 5) is not None:
             click(getLastMatch())
 
         click(wait(Pattern("inven_go2item.png").similar(0.90), 10))
@@ -140,7 +155,7 @@ class angel:
         click(find(Pattern("inven_select_4star.png").similar(0.95)))
 
         click(find(Pattern("inven_sell_all.png").similar(0.90)))
-        if exists(Pattern("alarm_ok.png").similar(0.90), 2) is not None:
+        if exists(Pattern("alarm_ok.png").similar(0.90), 5) is not None:
             click(getLastMatch())
 
         click(find(Pattern("back.png").similar(0.90)))
@@ -149,7 +164,7 @@ class angel:
     @staticmethod
     def buy_energy():
         
-        click(find("shop_energy.png"))
+        click(wait("shop_energy.png", 10))
         tab = wait(Pattern("shop_tab.png").similar(0.90), 3)
 
         while exists(Pattern("shop_gold2energy.png").similar(0.95)) is None:
@@ -175,18 +190,16 @@ popup(str(startTime))
 state = angel.MAIN
 mode, chap, stage = "hell", 8, 4
 while True:
-    state = angel.check(state)
+    print state
+    state = angel.check(angel, state)
     
     if state == angel.UNIDENTIFIED:
         continue
     elif state == angel.MAIN:
         state = adventure.start(mode, chap, stage)
-        continue
     elif state == angel.ADVENTURE:
         state = adventure.running()
-        continue
     elif state == angel.FRIDGE:
         pass
 
-    print state
-    wait(3)
+    wait(10)
