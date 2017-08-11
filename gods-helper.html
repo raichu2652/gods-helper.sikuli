@@ -176,7 +176,7 @@
                     <span class="skw">click</span>(getLastMatch())
                     <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
                 <span class="kw">try</span>:
-                    angel.buy_energy()
+                    <span class="kw">return</span> angel.buy_energy()
                 <span class="kw">except</span>:
                     <span class="kw">return</span> angel.UNIDENTIFIED
         <span class="kw">elif</span> exists(Pattern(<img src="cafe_close.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:

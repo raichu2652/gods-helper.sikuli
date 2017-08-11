@@ -104,7 +104,7 @@ class angel:
                     click(getLastMatch())
                     click(find(Pattern("back.png").similar(0.90)))
                 try:
-                    angel.buy_energy()
+                    return angel.buy_energy()
                 except:
                     return angel.UNIDENTIFIED
         elif exists(Pattern("cafe_close.png").similar(0.90)) is not None:
