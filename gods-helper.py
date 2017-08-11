@@ -73,8 +73,16 @@ class angel:
             pass
 
         self.lastScreenCapture = SCREEN.capture(App.focusedWindow())
-            
-        if exists(Pattern("alarm_title.png").similar(0.90)) is not None:
+
+        if exists(Pattern("notice_title.png").similar(0.90)) is not None:
+            if exists(Pattern("notice_another_device.png").similar(0.90)) is not None:
+                wait(1800)
+                try:
+                    angel.restart()
+                    return angel.UNIDENTIFIED
+                except:
+                    pass
+        elif exists(Pattern("alarm_title.png").similar(0.90)) is not None:
             wait(5)
 
             if exists(Pattern("alarm_max_inven.png").similar(0.90)) is not None:
@@ -84,8 +92,10 @@ class angel:
                 if exists(Pattern("inven_expand.png").similar(0.90), 3) is not None:
                     click(find(Pattern("alarm_close.png").similar(0.90)))
                     click(find(Pattern("back.png").similar(0.90)))
-                angel.clear_inventory()
-                return angel.MAIN
+                try:
+                    return angel.clear_inventory()
+                except:
+                    return angel.UNIDENTIFIED
             elif exists(Pattern("alarm_no_energy.png").similar(0.90)) is not None:
                 getLastMatch().highlight(1)
                 if exists(Pattern("alarm_ok.png").similar(0.90)) is not None:
@@ -93,8 +103,10 @@ class angel:
                 elif exists(Pattern("alarm_no.png").similar(0.90)) is not None:
                     click(getLastMatch())
                     click(find(Pattern("back.png").similar(0.90)))
-                angel.buy_energy()
-                return angel.MAIN
+                try:
+                    angel.buy_energy()
+                except:
+                    return angel.UNIDENTIFIED
         elif exists(Pattern("cafe_close.png").similar(0.90)) is not None:
             try:
                 click(getLastMatch())
@@ -159,7 +171,7 @@ class angel:
             click(getLastMatch())
 
         click(find(Pattern("back.png").similar(0.90)))
-        return
+        return angel.MAIN
 
     @staticmethod
     def buy_energy():
@@ -177,7 +189,7 @@ class angel:
             if waitVanish(Pattern("shop_gold2energy_confirm.png").similar(0.95), FOREVER):
                 continue
         click(find(Pattern("popup_close.png").similar(0.80)))
-        return
+        return angel.MAIN
 
 
 

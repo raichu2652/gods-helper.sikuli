@@ -146,7 +146,15 @@
 
         self.lastScreenCapture = SCREEN.<span class="skw">capture</span>(App.focusedWindow())
 
-        <span class="kw">if</span> exists(Pattern(<img src="alarm_title.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+        <span class="kw">if</span> exists(Pattern(<img src="notice_title.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="kw">if</span> exists(Pattern(<img src="notice_another_device.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
+                <span class="skw">wait</span>(<span class="dig">1800</span>)
+                <span class="kw">try</span>:
+                    angel.restart()
+                    <span class="kw">return</span> angel.UNIDENTIFIED
+                <span class="kw">except</span>:
+                    <span class="kw">pass</span>
+        <span class="kw">elif</span> exists(Pattern(<img src="alarm_title.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
             <span class="skw">wait</span>(<span class="dig">5</span>)
 
             <span class="kw">if</span> exists(Pattern(<img src="alarm_max_inven.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
@@ -156,8 +164,10 @@
                 <span class="kw">if</span> exists(Pattern(<img src="inven_expand.png" />).similar(<span class="dig">0.90</span>), <span class="dig">3</span>) <span class="kw">is</span> <span class="kw">not</span> None:
                     <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="alarm_close.png" />).similar(<span class="dig">0.90</span>)))
                     <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
-                angel.clear_inventory()
-                <span class="kw">return</span> angel.MAIN
+                <span class="kw">try</span>:
+                    <span class="kw">return</span> angel.clear_inventory()
+                <span class="kw">except</span>:
+                    <span class="kw">return</span> angel.UNIDENTIFIED
             <span class="kw">elif</span> exists(Pattern(<img src="alarm_no_energy.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
                 getLastMatch().highlight(<span class="dig">1</span>)
                 <span class="kw">if</span> exists(Pattern(<img src="alarm_ok.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
@@ -165,8 +175,10 @@
                 <span class="kw">elif</span> exists(Pattern(<img src="alarm_no.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
                     <span class="skw">click</span>(getLastMatch())
                     <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
-                angel.buy_energy()
-                <span class="kw">return</span> angel.MAIN
+                <span class="kw">try</span>:
+                    angel.buy_energy()
+                <span class="kw">except</span>:
+                    <span class="kw">return</span> angel.UNIDENTIFIED
         <span class="kw">elif</span> exists(Pattern(<img src="cafe_close.png" />).similar(<span class="dig">0.90</span>)) <span class="kw">is</span> <span class="kw">not</span> None:
             <span class="kw">try</span>:
                 <span class="skw">click</span>(getLastMatch())
@@ -231,7 +243,7 @@
             <span class="skw">click</span>(getLastMatch())
 
         <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="back.png" />).similar(<span class="dig">0.90</span>)))
-        <span class="kw">return</span>
+        <span class="kw">return</span> angel.MAIN
 
     @staticmethod
     <span class="kw">def</span> buy_energy():
@@ -249,7 +261,7 @@
             <span class="kw">if</span> waitVanish(Pattern(<img src="shop_gold2energy_confirm.png" />).similar(<span class="dig">0.95</span>), FOREVER):
                 <span class="kw">continue</span>
         <span class="skw">click</span>(<span class="skw">find</span>(Pattern(<img src="popup_close.png" />).similar(<span class="dig">0.80</span>)))
-        <span class="kw">return</span>
+        <span class="kw">return</span> angel.MAIN
 
 
 
